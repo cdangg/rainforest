@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20140202171319) do
     t.string   "name"
     t.text     "description"
     t.integer  "price_in_cents"
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
