@@ -1,9 +1,16 @@
-<h1>Welcome to the Rainforest</h1>
-<h3>Please feel free to browse around</h3>
-	<ul>
-		<% @products.each do |product| %>
-		<p><%= link_to product[:name], "/products/#{product.id}" %></p>
-		<p><%= product[:description] %></p>
+<h1>Products</h1>
+	<hr/>
 
-		<% end %>
+	<%= form_tag products_path, method: :get, authentication: false, id: 'search-form' do %>
+		<%= text_field_tag :search, params[:search] %>
+		<%= submit_tag "Search" %>
+	<% end %>
+	<ul>
+			<div id="products">
+				<%= render @products %>
+			</div>
 	</ul>
+
+	<p id="products-pagination"><%= paginate @products %></p>
+
+<%= params.inspect %>

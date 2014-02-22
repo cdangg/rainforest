@@ -1,15 +1,32 @@
 class ProductsController < ApplicationController
   before_filter :ensure_logged_in, :only => [:show]
   def index
-  	@products = Product.all
+    @products = if params[:search]
+      Product.where("name LIKE?", "%#{params[:search]}%").page(params[:page])
+
+    else
+       Product.order('products.created_at DESC').page(params[:page])
+    end
+
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
+  def search
+    @products = Product.where("name LIKE?", "%#{params[:search]}%")
+    render @products
   end
 
   def show
   	@product = Product.find(params[:id])
+    # @user = User.find(params[:id])
 
     if current_user
       @review = @product.reviews.build
     end
+      @reviews = Review.all.order("created_at DESC")
   end
 
   def new
@@ -48,6 +65,6 @@ class ProductsController < ApplicationController
 
   private
   def product_params
-  	params.require(:product).permit(:name, :description, :price_in_cents, :url)
+  	params.require(:product).permit(:name, :description, :price_in_cents, :url, :search)
   end
 end

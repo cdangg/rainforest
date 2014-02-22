@@ -1,0 +1,9 @@
+<%= link_to product_path(product.id) do %>
+	<h2>
+		<%= number_to_currency(product.formatted_price) %>
+		<%= product.name %><br/>
+	</h2>
+		<div class="img"><%= image_tag product.url %></div>
+<% end %>
+
+<div class="desc"><%= truncate(product.description, length: 100) %></div>
